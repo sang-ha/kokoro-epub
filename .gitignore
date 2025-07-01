@@ -1,8 +1,0 @@
-/data/
-/checkpoints/
-/*.tar.bz2
-*.wav
-__pycache__/
-*.pyc
-*.pyo
-.env/

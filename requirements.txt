@@ -1,9 +1,0 @@
-torch
-numpy
-scipy
-matplotlib
-librosa
-unidecode
-inflect
-tensorboard
-gradio
