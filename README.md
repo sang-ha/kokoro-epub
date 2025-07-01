@@ -1,7 +1,3 @@
-Here’s a simple README snippet you can add to your project to explain the audio merging step and necessary dependencies:
-
----
-
 ## Audio Merging
 
 This project generates multiple `.wav` audio files (e.g., one per chapter or segment). To combine these into a single audiobook file, use the `pydub` Python library along with `ffmpeg`.
