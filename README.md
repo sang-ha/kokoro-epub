@@ -1,30 +1,33 @@
-## Audio Merging
+## Setup
 
-This project generates multiple `.wav` audio files (e.g., one per chapter or segment). To combine these into a single audiobook file, use the `pydub` Python library along with `ffmpeg`.
+Before running any scripts, create and activate a virtual environment:
 
-### Requirements
+```bash
+# Create virtual environment (only needed once)
+python3 -m venv kokoro-env
+
+# Activate the virtual environment
+source kokoro-env/bin/activate  # macOS/Linux
+# or
+.\kokoro-env\Scripts\activate   # Windows
+
+# Install dependencies
+pip install -r requirements.txt
+````
+
+---
+
+## Requirements
 
 * Python packages:
 
-  * `pydub`
+* Listed in `requirements.txt`
 * System packages:
 
-  * `ffmpeg` (must be installed separately)
+* `ffmpeg` (if you're using TTS that depends on it)
 
-### Installing Dependencies
+### Installing ffmpeg (macOS example):
 
 ```bash
-pip install -r requirements.txt
-# On macOS, install ffmpeg with:
 brew install ffmpeg
 ```
-
-### Combining Audio Files
-
-Here’s a Python example to merge all chapter audio files in the `audiobook` folder into a single `.wav` file:
-
-```python
-
-```
-
-Run this script after generating your individual `.wav` files.

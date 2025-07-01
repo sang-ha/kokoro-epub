@@ -18,11 +18,16 @@ pipeline = KPipeline(lang_code=lang_code)
 book = epub.read_epub(book_path)
 chapters = [item for item in book.items if item.get_type() == ITEM_DOCUMENT]
 
+start_chapter = 9  # <-- Change this to whatever chapter you want to start from
+
 for i, chapter in enumerate(chapters):
+    if i < start_chapter:
+        continue  # Skip chapters before start_chapter
+
     soup = BeautifulSoup(chapter.get_content(), 'html.parser')
     text = soup.get_text().strip()
     if len(text) < 100:
-        continue  # skip empty chapters
+        continue
 
     print(f"Processing chapter {i}: {chapter.get_name()}")
 
