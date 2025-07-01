@@ -1,0 +1,9 @@
+# Basic hyperparameters
+sampling_rate = 22050
+n_mel_channels = 80
+n_fft = 1024
+hop_length = 256
+win_length = 1024
+batch_size = 16
+epochs = 1000
+fp16_run = True
