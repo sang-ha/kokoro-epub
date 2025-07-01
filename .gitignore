@@ -1,0 +1,4 @@
+*.wav
+/kokoro-env
+*.epub
+.DS_Store
