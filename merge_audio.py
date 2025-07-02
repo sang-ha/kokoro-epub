@@ -3,7 +3,7 @@ import os
 import re
 
 folder = "audiobook"
-output_path = os.path.join(folder, "full_book.wav")
+output_path = os.path.join(folder, "full_book.mp3")
 
 def natural_key(filename):
     """Sorts like: chapter_01_2.wav < chapter_01_10.wav"""

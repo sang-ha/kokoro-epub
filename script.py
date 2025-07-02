@@ -7,7 +7,7 @@ import soundfile as sf
 import os
 
 # --- Config ---
-book_path = "relax.epub"
+book_path = "eat.epub"
 output_dir = "audiobook"
 lang_code = 'a'
 voice = 'af_heart'
@@ -20,10 +20,10 @@ pipeline = KPipeline(lang_code=lang_code)
 book = epub.read_epub(book_path)
 chapters = [item for item in book.items if item.get_type() == ITEM_DOCUMENT]
 
-start_chapter = 9  # <-- Change this to whatever chapter you want to start from
+# start_chapter = 9  # <-- Change this to whatever chapter you want to start from
 
 for i, chapter in enumerate(chapters):
-    if i < start_chapter:
+    if i < start_chapter if 'start_chapter' in locals() else 0:
         continue  # Skip chapters before start_chapter
 
     soup = BeautifulSoup(chapter.get_content(), 'html.parser')
