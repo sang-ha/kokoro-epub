@@ -1,5 +1,13 @@
+# atomics
 *.wav
 *.mp3
+# *.epub
+
+# python things
 **/kokoro-env
-*.epub
+
+# misc
 .DS_Store
+
+# training
+**/ljspeech

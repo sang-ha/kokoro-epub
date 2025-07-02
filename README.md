@@ -8,7 +8,7 @@ python3.11 -m venv kokoro-env # 3.13 doesn't work
 # Activate the virtual environment
 source kokoro-env/bin/activate  # macOS/Linux
 # or
-.\kokoro-env\Scripts\activate   # Windows
+source kokoro-env\Scripts\activate   # Windows/Git Bash
 
 # Install dependencies
 pip install -r requirements.txt

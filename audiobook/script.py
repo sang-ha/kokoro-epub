@@ -7,7 +7,7 @@ import soundfile as sf
 import os
 
 # --- Config ---
-book_path = "great.epub"
+book_path = "input/farewell.epub"
 output_dir = "output"
 lang_code = 'a'
 voice = 'af_heart'
