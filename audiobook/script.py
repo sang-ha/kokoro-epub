@@ -16,7 +16,7 @@ voice = 'af_heart'
 os.makedirs(output_dir, exist_ok=True)
 
 # Optional: Skip earlier chapters
-start_chapter = 2
+# start_chapter = 2
 
 # --- TTS Init ---
 pipeline = KPipeline(lang_code=lang_code)

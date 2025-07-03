@@ -1,7 +1,8 @@
 # atomics
 *.wav
 *.mp3
-# *.epub
+*.epub
+!input/great.epub  # <== explicitly allow this one file
 
 # python things
 **/kokoro-env
