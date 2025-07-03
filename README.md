@@ -3,12 +3,12 @@
 Before running any scripts, create and activate a virtual environment:
 
 ```bash
-python3.11 -m venv kokoro-env # 3.13 doesn't work
+python3.11 -m venv kokoro-env  # Python 3.13 doesn't work
 
 # Activate the virtual environment
-source kokoro-env/bin/activate  # macOS/Linux
+source kokoro-env/bin/activate     # macOS/Linux
 # or
-source kokoro-env\Scripts\activate   # Windows/Git Bash
+source kokoro-env/Scripts/activate  # Windows/Git Bash
 
 # Install dependencies
 pip install -r requirements.txt
@@ -18,15 +18,22 @@ pip install -r requirements.txt
 
 ## Requirements
 
-* Python packages:
+### Python Packages
 
-* Listed in `requirements.txt`
-* System packages:
+* All listed in `requirements.txt`
 
-* `ffmpeg` (if you're using TTS that depends on it)
+### System Dependencies
 
-### Installing ffmpeg (macOS example):
+* [`ffmpeg`](https://ffmpeg.org/) — required by some TTS modules
+
+#### Example (macOS):
 
 ```bash
 brew install ffmpeg
 ```
+
+---
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE).

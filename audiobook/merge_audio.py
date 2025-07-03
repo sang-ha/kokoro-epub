@@ -2,7 +2,7 @@ from pydub import AudioSegment
 import os
 import re
 
-folder = "audiobook"
+folder = "output"
 output_path = os.path.join(folder, "full_book.mp3")
 
 def natural_key(filename):
