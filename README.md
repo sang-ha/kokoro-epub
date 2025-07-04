@@ -32,6 +32,11 @@ pip install -r requirements.txt
 brew install ffmpeg
 ```
 
+
+## Training
+
+- https://github.com/idiap/coqui-ai-TTS
+
 ---
 
 ## License
