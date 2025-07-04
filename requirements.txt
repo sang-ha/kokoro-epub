@@ -3,3 +3,6 @@ beautifulsoup4
 soundfile
 pydub
 kokoro
+
+PyQt5
+sounddevice
