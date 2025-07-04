@@ -8,6 +8,7 @@ from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from script import process_epub
 from ebooklib import epub, ITEM_DOCUMENT
 from bs4 import BeautifulSoup
+from merge_audio import merge_audio_files
 
 class Worker(QThread):
     progress = pyqtSignal(str)
@@ -108,6 +109,21 @@ class DropWidget(QWidget):
         self.stop_btn.setEnabled(False)
         self.progress_bar.setVisible(False)
         self.worker = None
+
+        # Automatically merge audio files after TTS is done
+        self.label.setText("Merging audio files...")
+        def merge_progress_callback(m):
+            self.label.setText(m)
+            QApplication.processEvents()
+        success = merge_audio_files(
+            folder=self.output_dir,
+            output_path=os.path.join(self.output_dir, "full_book.mp3"),
+            progress_callback=merge_progress_callback
+        )
+        if success:
+            self.label.setText("Merge complete! See full_book.mp3 in output folder.")
+        else:
+            self.label.setText("No WAV files found to merge.")
 
     def open_output(self):
         QFileDialog.getOpenFileName(self, "Open Output Folder", self.output_dir)
