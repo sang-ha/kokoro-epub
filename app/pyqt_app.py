@@ -1,87 +1,125 @@
 import sys
+import os
 from PyQt5.QtWidgets import (
-    QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QFileDialog
+    QApplication, QWidget, QVBoxLayout, QLabel, QPushButton, QFileDialog, QProgressBar
 )
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
-import soundfile as sf
-import sounddevice as sd
+# Import the refactored process_epub function
+from script import process_epub
+from ebooklib import epub, ITEM_DOCUMENT
+from bs4 import BeautifulSoup
 
-# Import your kokoro pipeline
-from kokoro import KPipeline
-
-class TTSWorker(QThread):
+class Worker(QThread):
     progress = pyqtSignal(str)
     finished = pyqtSignal(str)
-    audio_ready = pyqtSignal(str)
+    progress_value = pyqtSignal(int)
+    progress_max = pyqtSignal(int)
+
+    def __init__(self, epub_path, output_dir):
+        super().__init__()
+        self.epub_path = epub_path
+        self.output_dir = output_dir
+        self._is_stopped = False
 
     def run(self):
-        self.progress.emit("Loading Kokoro model...")
-        pipeline = KPipeline(lang_code='a')
-        text = (
-            "Kokoro is an open-weight TTS model with 82 million parameters. "
-            "Despite its lightweight architecture, it delivers comparable quality to larger models "
-            "while being significantly faster and more cost-efficient."
-        )
-        self.progress.emit("Synthesizing speech...")
-        for i, (_, _, audio) in enumerate(pipeline(text, voice='af_heart')):
-            filename = f"output_{i}.wav"
-            sf.write(filename, audio, 24000)
-            self.progress.emit(f"Saved {filename}")
-            self.audio_ready.emit(filename)
-        self.finished.emit("Done! All audio files saved.")
+        self.progress.emit(f"Processing: {os.path.basename(self.epub_path)}")
+        try:
+            # Estimate number of chapters for progress bar
+            book = epub.read_epub(self.epub_path)
+            chapters = [item for item in book.items if item.get_type() == ITEM_DOCUMENT]
+            total = sum(
+                1 for i, chapter in enumerate(chapters)
+                if len(BeautifulSoup(chapter.get_content(), 'html.parser').get_text().strip()) >= 100
+            )
+            self.progress_max.emit(total if total > 0 else 1)
+            self._current = 0
 
-class MainWindow(QWidget):
+            def progress_callback(msg):
+                self.progress.emit(msg)
+                if "Done chapter" in msg or "Done!" in msg:
+                    self._current += 1
+                    self.progress_value.emit(self._current)
+                if self._is_stopped:
+                    raise Exception("Processing stopped by user.")
+
+            process_epub(
+                self.epub_path,
+                self.output_dir,
+                progress_callback=progress_callback
+            )
+            if not self._is_stopped:
+                self.finished.emit(f"Done! WAV files in: {self.output_dir}")
+        except Exception as e:
+            self.finished.emit(f"Stopped: {e}" if self._is_stopped else f"Error: {e}")
+
+    def stop(self):
+        self._is_stopped = True
+
+class DropWidget(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Kokoro TTS PyQt Demo")
-        self.setGeometry(100, 100, 400, 200)
+        self.setWindowTitle("EPUB to Audio (Kokoro TTS)")
+        self.setAcceptDrops(True)
+        self.resize(400, 250)
         layout = QVBoxLayout()
-
-        self.label = QLabel("Click the button to generate speech with Kokoro TTS.")
+        self.label = QLabel("Drop an EPUB file here to generate WAV files.")
         self.label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.label)
-
-        self.button = QPushButton("Generate Sample Speech")
-        self.button.clicked.connect(self.run_tts)
-        layout.addWidget(self.button)
-
-        self.play_button = QPushButton("Play Last Audio")
-        self.play_button.setEnabled(False)
-        self.play_button.clicked.connect(self.play_audio)
-        layout.addWidget(self.play_button)
-
+        self.progress_bar = QProgressBar()
+        self.progress_bar.setValue(0)
+        self.progress_bar.setVisible(False)
+        layout.addWidget(self.progress_bar)
+        self.open_btn = QPushButton("Open Output Folder")
+        self.open_btn.setEnabled(False)
+        self.open_btn.clicked.connect(self.open_output)
+        layout.addWidget(self.open_btn)
+        self.stop_btn = QPushButton("Stop")
+        self.stop_btn.setEnabled(False)
+        self.stop_btn.clicked.connect(self.stop_processing)
+        layout.addWidget(self.stop_btn)
         self.setLayout(layout)
-        self.last_audio_file = None
+        self.output_dir = "output"
+        self.worker = None
 
-    def run_tts(self):
-        self.button.setEnabled(False)
-        self.label.setText("Running TTS...")
-        self.worker = TTSWorker()
-        self.worker.progress.connect(self.update_status)
-        self.worker.finished.connect(self.tts_done)
-        self.worker.audio_ready.connect(self.set_last_audio)
-        self.worker.start()
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.acceptProposedAction()
 
-    def update_status(self, msg):
+    def dropEvent(self, event):
+        epub_path = event.mimeData().urls()[0].toLocalFile()
+        if epub_path.lower().endswith('.epub'):
+            self.label.setText("Processing...")
+            self.open_btn.setEnabled(False)
+            self.stop_btn.setEnabled(True)
+            self.progress_bar.setValue(0)
+            self.progress_bar.setVisible(True)
+            self.worker = Worker(epub_path, self.output_dir)
+            self.worker.progress.connect(self.label.setText)
+            self.worker.finished.connect(self.done)
+            self.worker.progress_value.connect(self.progress_bar.setValue)
+            self.worker.progress_max.connect(self.progress_bar.setMaximum)
+            self.worker.start()
+        else:
+            self.label.setText("Please drop a valid EPUB file.")
+
+    def done(self, msg):
         self.label.setText(msg)
+        self.open_btn.setEnabled(True)
+        self.stop_btn.setEnabled(False)
+        self.progress_bar.setVisible(False)
+        self.worker = None
 
-    def tts_done(self, msg):
-        self.label.setText(msg)
-        self.button.setEnabled(True)
-        self.play_button.setEnabled(self.last_audio_file is not None)
+    def open_output(self):
+        QFileDialog.getOpenFileName(self, "Open Output Folder", self.output_dir)
 
-    def set_last_audio(self, filename):
-        self.last_audio_file = filename
-        self.play_button.setEnabled(True)
-
-    def play_audio(self):
-        if self.last_audio_file:
-            data, samplerate = sf.read(self.last_audio_file)
-            sd.play(data, samplerate)
-            self.label.setText(f"Playing {self.last_audio_file}...")
+    def stop_processing(self):
+        if self.worker is not None:
+            self.worker.stop()
+            self.label.setText("Stopping...")
+            self.stop_btn.setEnabled(False)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = MainWindow()
+    window = DropWidget()
     window.show()
     sys.exit(app.exec_())
