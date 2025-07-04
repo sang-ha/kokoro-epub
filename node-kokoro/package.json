@@ -1,0 +1,16 @@
+{
+  "name": "node-kokoro-demo",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "tts-demo.js",
+  "scripts": {
+    "start": "node tts-demo.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "kokoro-js": "^1.2.1"
+  }
+}
