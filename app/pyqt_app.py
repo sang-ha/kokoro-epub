@@ -9,6 +9,7 @@ from script import process_epub
 from ebooklib import epub, ITEM_DOCUMENT
 from bs4 import BeautifulSoup
 from merge_audio import merge_audio_files
+import glob
 
 class Worker(QThread):
     progress = pyqtSignal(str)
@@ -63,7 +64,7 @@ class DropWidget(QWidget):
         self.setAcceptDrops(True)
         self.resize(400, 250)
         layout = QVBoxLayout()
-        self.label = QLabel("Drop an EPUB file here to generate WAV files.")
+        self.label = QLabel("Drop an EPUB file here to generate an audio book.")
         self.label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.label)
         self.progress_bar = QProgressBar()
@@ -78,6 +79,11 @@ class DropWidget(QWidget):
         self.stop_btn.setEnabled(False)
         self.stop_btn.clicked.connect(self.stop_processing)
         layout.addWidget(self.stop_btn)
+        self.new_btn = QPushButton("New eBook")
+        self.new_btn.setEnabled(False)
+        self.new_btn.setVisible(False)
+        self.new_btn.clicked.connect(self.reset_ui)
+        layout.addWidget(self.new_btn)
         self.setLayout(layout)
         self.output_dir = "output"
         self.worker = None
@@ -121,9 +127,20 @@ class DropWidget(QWidget):
             progress_callback=merge_progress_callback
         )
         if success:
-            self.label.setText("Merge complete! See full_book.mp3 in output folder.")
+            # Delete all .wav files in the output directory
+            wav_files = glob.glob(os.path.join(self.output_dir, '*.wav'))
+            for wav_file in wav_files:
+                try:
+                    os.remove(wav_file)
+                except Exception as e:
+                    print(f"Failed to delete {wav_file}: {e}")
+            self.label.setText("Merge complete! WAV files deleted. See full_book.mp3 in output folder.")
+            self.new_btn.setEnabled(True)
+            self.new_btn.setVisible(True)
         else:
             self.label.setText("No WAV files found to merge.")
+            self.new_btn.setEnabled(True)
+            self.new_btn.setVisible(True)
 
     def open_output(self):
         QFileDialog.getOpenFileName(self, "Open Output Folder", self.output_dir)
@@ -133,6 +150,16 @@ class DropWidget(QWidget):
             self.worker.stop()
             self.label.setText("Stopping...")
             self.stop_btn.setEnabled(False)
+
+    def reset_ui(self):
+        self.label.setText("Drop an EPUB file here to generate WAV files.")
+        self.progress_bar.setValue(0)
+        self.progress_bar.setVisible(False)
+        self.open_btn.setEnabled(False)
+        self.stop_btn.setEnabled(False)
+        self.new_btn.setEnabled(False)
+        self.new_btn.setVisible(False)
+        self.worker = None
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
