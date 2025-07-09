@@ -6,7 +6,4 @@ kokoro
 
 PyQt6
 sounddevice
-
 PyPDF2
-pyinstaller
-spacy
