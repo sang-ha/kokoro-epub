@@ -17,6 +17,9 @@ cd app
 python pyqt_app.py
 ```
 
+- The PyQt app lets you choose CPU or GPU (CUDA) for processing if you have an NVIDIA GPU and CUDA-enabled PyTorch installed. CUDA is much faster than CPU.
+- `ffmpeg` is required for audio merging. On Windows, one way to install it is with `winget`.
+
 ## License
 
 MIT License. See [LICENSE.md](./LICENSE.md).
