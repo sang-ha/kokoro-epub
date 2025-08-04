@@ -25,7 +25,7 @@ python pyqt_app.py
 
 A sample audio file is included:
 
-<video src='assets/sun_also_sample.mp4' width=180/>
+<video src='assets/sun_also_sample.mp4' width=180></video>
 
 You can play this file to hear an example of the audio output produced by the application.
 
