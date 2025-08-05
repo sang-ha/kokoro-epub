@@ -2,8 +2,7 @@
 *.wav
 # *.mp3
 *.epub
-!input/great.epub  # <== explicitly allow this one file
-**/kokoro-env
+**/venv
 **/__pycache__
 **/build/
 **/dist/
