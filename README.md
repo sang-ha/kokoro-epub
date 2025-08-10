@@ -6,7 +6,7 @@ Convert EPUB, TXT, or PDF files to audio using Python and PyQt.
 
 Works on **Windows** and **macOS**.
 
-![Screenshot](assets/20250720-screen.png)
+![Screenshot](assets/20250810.png)
 
 ## Quick Start
 
