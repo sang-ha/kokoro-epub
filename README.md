@@ -42,6 +42,12 @@ docker build -t kokoro-cuda-test .
 docker run --gpus all kokoro-cuda-test
 ```
 
+## Related Projects
+
+If you're exploring other ebook-to-audio solutions, you might also check out:  
+- [audiblez](https://github.com/santinic/audiblez) — CLI tool for converting text to audiobooks.  
+- [ebook2audiobook](https://github.com/DrewThomasson/ebook2audiobook) — Simple Python-based ebook-to-audio converter.  
+
 ## License
 
 MIT License. See [LICENSE.md](./LICENSE.md).
