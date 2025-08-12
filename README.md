@@ -1,6 +1,9 @@
 # kokoro-epub
 
-> **Disclaimer:** Only use material from the public domain.
+> [!IMPORTANT]
+**This tool is intended for use with non-DRM, legally acquired eBooks only.** <br>
+The authors are not responsible for any misuse of this software or any resulting legal consequences. <br>
+Use this tool responsibly and in accordance with all applicable laws.
 
 Convert EPUB, TXT, or PDF files to audio using Python and PyQt.
 
