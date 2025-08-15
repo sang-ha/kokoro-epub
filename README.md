@@ -45,6 +45,7 @@ docker run --gpus all kokoro-cuda-test
 ## Related Projects
 
 If you're exploring other ebook-to-audio solutions, you might also check out:  
+- [readest](https://github.com/readest/readest) - modern e-reader with Edge TTS (22 voices)
 - [audiblez](https://github.com/santinic/audiblez) — CLI tool for converting text to audiobooks.  
 - [ebook2audiobook](https://github.com/DrewThomasson/ebook2audiobook) — Simple Python-based ebook-to-audio converter.  
 
