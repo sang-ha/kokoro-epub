@@ -29,14 +29,11 @@ python pyqt_app.py
 <video src='https://github.com/user-attachments/assets/cd229d05-e59a-4e91-becf-4b3de1859607
 ' width=180></video>
 
-Spanish Example:
-
-<video src='https://github.com/user-attachments/assets/6f9f8295-ba3e-4e00-97bf-7b94e740c2b1' width=180></video>
-
 - The PyQt app lets you choose CPU or GPU (CUDA) for processing if you have an NVIDIA GPU and CUDA-enabled PyTorch installed. CUDA is much faster than CPU.
 - `ffmpeg` is required for audio merging. On Windows, one way to install it is with `winget`.
 
-# Docker
+## Docker
+
 ```bash
 docker build -t kokoro-epub .
 
