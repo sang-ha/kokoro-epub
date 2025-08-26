@@ -38,6 +38,8 @@ Spanish Example:
 
 # Docker
 ```bash
+docker build -t kokoro-epub .
+
 docker run --rm \
   -v "$PWD/app/input:/app/input" \
   -v "$PWD/app/output:/app/output" \
