@@ -1,3 +1,14 @@
+---
+title: Kokoro EPUB to Audiobook
+emoji: 🎧
+colorFrom: blue
+colorTo: indigo
+sdk: gradio
+sdk_version: "4.44.0"   # (or latest Gradio version you want)
+app_file: app.py
+pinned: false
+---
+
 # kokoro-epub
 
 > [!IMPORTANT]
