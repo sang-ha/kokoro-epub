@@ -1,7 +1,7 @@
 # python
 *.wav
 # *.mp3
-*.epub
+# *.epub
 **/venv
 **/__pycache__
 **/build/
