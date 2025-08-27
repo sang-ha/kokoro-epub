@@ -18,7 +18,7 @@ The authors are not responsible for any misuse of this software or any resulting
 
 Convert EPUB to audiobook using Python.
 
-![Screenshot](public/20250826.png)
+<img src='public/20250826.png' width='200'>
 
 ## Quick Start
 
