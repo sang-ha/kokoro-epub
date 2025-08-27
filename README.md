@@ -34,7 +34,7 @@ python app.py
 
 ### GPU Torch
 
-Gutenberg Kafka - The Metamorphosis 25152 words ~ 100 pages
+Gutenberg Kafka - The Metamorphosis 25152 words ~ 100 pages ~ 60mb (MP3 2h12m • 64 kbps • 24 kHz • mono)
 
 5060 Ti 16GB - ETA 194s/3' | WPS 130
 vs
