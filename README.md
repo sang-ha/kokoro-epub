@@ -34,11 +34,11 @@ python app.py
 
 ### GPU Torch
 
-Kafka - Meta 25152 words
+Gutenberg Kafka - The Metamorphosis 25152 words ~ 100 pages
 
-5060 Ti 16GB - ETA 194s | WPS 129.6
+5060 Ti 16GB - ETA 194s/3' | WPS 130
 vs
-CPU - ?
+CPU - 1389s/23' | WPS 18
 
 ```bash
  pip install --upgrade torch --index-url https://download.pytorch.org/whl/cu128
