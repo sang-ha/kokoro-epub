@@ -32,6 +32,8 @@ pip install -r requirements.txt
 python app.py
 ```
 
+👉 Try it free on [Hugging Face Space](https://huggingface.co/spaces/adnjoo/kokoro-epub) — or run faster in the cloud at [bookbearai.com](https://bookbearai.com).
+
 ### GPU Torch
 
 Gutenberg Kafka - The Metamorphosis 25152 words ~ 100 pages ~ 60mb (MP3 2h12m • 64 kbps • 24 kHz • mono)
