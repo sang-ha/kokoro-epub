@@ -130,10 +130,14 @@ def epub_to_audio(epub_file, voice, speed, progress=gr.Progress()):
 
 # ---------------- Gradio UI ---------------- #
 
-with gr.Blocks(title="EPUB → MP3 (Kokoro)") as demo:
+with gr.Blocks(title="BookBearAI — Free EPUB → MP3") as demo:
     gr.Markdown(
-        "## EPUB → MP3 with Kokoro TTS\n"
-        "Upload an EPUB and get a single MP3 (or a ZIP of WAVs if ffmpeg isn’t available)."
+        "## Free EPUB → MP3 (Open Source)\n"
+        "Upload any non-DRM EPUB and generate a natural-sounding AI audiobook (MP3).\n\n"
+        "This free demo is powered by [Kokoro TTS](https://github.com/hexgrad/kokoro-tts) "
+        "and is part of the open-source project at [github.com/adnjoo/kokoro-epub](https://github.com/adnjoo/kokoro-epub).\n\n"
+        "**Want more voices, formats (PDF, TXT), and cloud hosting?** "
+        "Check out [BookBearAI](https://bookbearai.com) → our full platform for ebook-to-audiobook conversion."
     )
 
     with gr.Row():
