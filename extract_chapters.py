@@ -7,10 +7,20 @@ def extract_chapters(epub_path):
     for item in book.items:
         if item.get_type() == ITEM_DOCUMENT:
             soup = BeautifulSoup(item.get_content(), "html.parser")
-            text = soup.get_text()
-            if text.strip():
-                title = soup.title.string if soup.title else f"Chapter {len(chapters)+1}"
-                chapters.append((title, text.strip()))
+            text = soup.get_text().strip()
+            if not text:
+                continue
+
+            # try to find a heading
+            heading = soup.find(["h1", "h2", "h3"])
+            if heading and heading.get_text(strip=True):
+                title = heading.get_text(strip=True)
+            elif soup.title and soup.title.string:
+                title = soup.title.string.strip()
+            else:
+                title = f"Section {len(chapters)+1}"
+
+            chapters.append((title, text))
     return chapters
 
 if __name__ == "__main__":
