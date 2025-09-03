@@ -80,3 +80,8 @@ If you're exploring other ebook-to-audio solutions, you might also check out:
 ## License
 
 MIT License. See [LICENSE.md](./LICENSE.md).
+
+
+## Contributing
+
+📌 See [CONTRIBUTING.md](./CONTRIBUTING.md) if you'd like to contribute.
